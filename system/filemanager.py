@@ -61,7 +61,7 @@ class filemanager():
             return default
 
     @staticmethod
-    def change_or_add_value_on_json(*, key : str, new_value, address : str, alias : str = None, debug =True):
+    def change_or_add_value_on_json(*, key : str, new_value, address : str = None, alias : str = None, debug =True):
         obj = filemanager.get_json(address=address, alias=alias, debug=debug)
         obj[key] = new_value
         filemanager.enter_json(dictionary=obj,address=address,alias=alias,debug=debug)

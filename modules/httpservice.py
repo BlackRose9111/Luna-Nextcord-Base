@@ -1,9 +1,10 @@
 import flask
+from nextcord.ext.commands import Cog
 
 import main
 
 
-class http_service_cog():
+class http_service_cog(Cog):
     def __init__(self, bot):
         self.bot = bot
         print("http_service_cog loaded")
