@@ -1,12 +1,12 @@
 import json
 
 class filemanager():
-    aliases : dict = {"alias": ""}
+    aliases : dict = {"alias": "variables/config/aliases.json"}
     def __init__(self):
         self.get_aliases()
 
     def get_aliases(self):
-        obj : dict = filemanager.get_json(alias="alias",debug=False)
+        obj : dict = filemanager.get_json(address=self.aliases["alias"],debug=False)
         self.aliases += obj
     def get_alias(self,alias):
         try:
@@ -18,11 +18,12 @@ class filemanager():
     @staticmethod
     def get_json(*, address : str = None,alias : str = None,debug = True) -> dict or None:
         file_address = None
-        fm = filemanager()
+
         try:
             if address is not None:
                 file_address = address
             elif address is None and alias is not None:
+                fm = filemanager()
                 file_address = fm.get_alias(alias=alias)
             elif address is None and alias is None:
                 raise Exception("Missing address and alias")
@@ -38,11 +39,11 @@ class filemanager():
     @staticmethod
     def enter_json(*, dictionary : dict, address :str = None, alias : str = None, debug = True):
         file_address = None
-        fm = filemanager()
         try:
             if address is not None:
                 file_address = address
             elif address is None and alias is not None:
+                fm = filemanager()
                 file_address = fm.get_alias(alias)
             elif address is None and alias is None:
                 raise Exception("Missing address and alias")
