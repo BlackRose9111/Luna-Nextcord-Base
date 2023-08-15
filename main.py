@@ -17,6 +17,8 @@ bot = commands.AutoShardedBot(command_prefix="!",
 run_time = 0
 TOKEN = ""
 
+
+
 @bot.event
 async def on_ready():
     print("Luna launched")
@@ -41,7 +43,9 @@ async def parallel_loop():
 def get_token():
     global TOKEN
     try:
-        TOKEN = filemanager.get_value_from_json()
+        TOKEN = filemanager.get_value_from_json(key="token",alias="token",debug=False)
+        if TOKEN is None:
+            raise Exception("Token is None")
     except:
         TOKEN = None
 
@@ -50,7 +54,8 @@ def get_token():
             a = input("Bot Token was not found, please enter it by hand:")
             if a is not None and a != "":
                 TOKEN = a
-                filemanager.change_or_add_value_on_json(new_value=TOKEN,alias="token",debug=False,key="token")
+                print("Token entered successfully")
+                filemanager.change_or_add_value_on_json(new_value=TOKEN,alias="token",debug=True,key="token")
                 break
 
 def load_module(modulename):
@@ -69,6 +74,9 @@ def load_all_modules():
 get_token()
 load_all_modules()
 bot.run(TOKEN)
+
+
+
 
 print("Goodbye! <3")
 

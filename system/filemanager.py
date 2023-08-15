@@ -7,7 +7,8 @@ class filemanager():
 
     def get_aliases(self):
         obj : dict = filemanager.get_json(address=self.aliases["alias"],debug=False)
-        self.aliases += obj
+        for key in obj.keys():
+            self.aliases[key] = obj[key]
     def get_alias(self,alias):
         try:
             return self.aliases[alias]
@@ -29,7 +30,7 @@ class filemanager():
                 raise Exception("Missing address and alias")
             with open(file_address,"r") as f:
                 contents = f.read()
-                _object = json.loads(contents)
+                _object = dict(json.loads(contents))
                 if debug is True:
                     print(f"Accessed {file_address}")
                 return _object
@@ -47,7 +48,8 @@ class filemanager():
                 file_address = fm.get_alias(alias)
             elif address is None and alias is None:
                 raise Exception("Missing address and alias")
-            json.dump(dictionary,indent=4,fp=file_address)
+            with open(file_address,"w") as f:
+                json.dump(dictionary,f)
             if debug is True:
                 print(f"Wrote {dictionary} on {file_address}")
         except Exception as e:

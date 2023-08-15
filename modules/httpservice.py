@@ -1,17 +1,29 @@
+import threading
+
 import flask
 from nextcord.ext.commands import Cog
 
 import main
 
 
-class http_service_cog(Cog):
+class httpservice(Cog):
     def __init__(self, bot):
         self.bot = bot
-        print("http_service_cog loaded")
-        self.port = 64000 #I recommend 60000 range ports as they are less likely to be used by something else
         self.app = flask.Flask(main.bot_name)
+
+
+    @Cog.listener()
+    async def on_ready(self):
+        print("HTTP Service Cog is ready")
         self.add_paths()
-        self.app.run(port=self.port)
+        self.thread = threading.Thread(target=self.start_server, daemon=True)
+        self.thread.start()
+
+
+    def start_server(self):
+        self.app.run(host="0.0.0.0", port=64000, debug=False)
+        #uvicorn.run(self.app,host="0.0.0.0",port=65000)
+
 
     def add_paths(self):
         self.app.add_url_rule("/test", "test", self.test)
@@ -20,4 +32,4 @@ class http_service_cog(Cog):
         return "test"
 
 def setup(bot):
-    bot.add_cog(http_service_cog(bot))
+    bot.add_cog(httpservice(bot))
