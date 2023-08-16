@@ -32,5 +32,10 @@ class Timemanager():
         return str(round(time,2)) + timesuffix
     def get_time_difference(self,first,second):
         return (first - second).total_seconds()
+    def get_bot_uptime(self):
+        botrunseconds = main.run_time
+        return self.format_seconds(botrunseconds)
+    def get_but_uptime_raw(self):
+        return main.run_time
 
 
